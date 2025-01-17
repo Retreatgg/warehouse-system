@@ -1,0 +1,321 @@
+databaseChangeLog:
+  - changeSet:
+      id: create table for rooms
+      author: argen
+      changes:
+        - createTable:
+            tableName: rooms
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: guid
+                  type: varchar(255)
+              - column:
+                  name: is_deleted
+                  type: boolean
+
+  - changeSet:
+      id: create table for area
+      author: argen
+      changes:
+        - createTable:
+            tableName: areas
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: guid
+                  type: varchar(255)
+              - column:
+                  name: is_deleted
+                  type: boolean
+              - column:
+                  name: room_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_room_id
+                    references: rooms(id)
+
+  - changeSet:
+      id: create table for warehouse
+      author: argen
+      changes:
+        - createTable:
+            tableName: warehouses
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: guid
+                  type: varchar(255)
+              - column:
+                  name: is_deleted
+                  type: boolean
+              - column:
+                  name: area_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_area_id
+                    references: areas(id)
+              - column:
+                  name: moll_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_moll_id
+                    references: users(id)
+
+  - changeSet:
+      id: create table for unit_type
+      author: argen
+      changes:
+        - createTable:
+            tableName: unit_types
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_deleted
+                  type: boolean
+
+  - changeSet:
+      id: create table for nomenclature
+      author: argen
+      changes:
+        - createTable:
+            tableName: nomenclatures
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: guid
+                  type: varchar(255)
+              - column:
+                  name: is_deleted
+                  type: boolean
+              - column:
+                  name: base_warehouse_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_base_warehouse_id
+                    references: warehouses(id)
+              - column:
+                  name: unit_type_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_unit_type_id
+                    references: unit_types(id)
+
+  - changeSet:
+      id: create table for operation_type
+      author: argen
+      changes:
+        - createTable:
+            tableName: operation_types
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_deleted
+                  type: boolean
+
+  - changeSet:
+      id: create table for operations
+      author: argen
+      changes:
+        - createTable:
+            tableName: operations
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: warehouse_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_warehouse_operation_id
+                    references: warehouses(id)
+              - column:
+                  name: date
+                  type: timestamp
+              - column:
+                  name: operation_type_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_operation_type_id
+                    references: operation_types(id)
+
+  - changeSet:
+      id: create table for list_nomenclatures
+      author: argen
+      changes:
+        - createTable:
+            tableName: list_nomenclatures
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: nomenclature_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_nomenclature_list_id
+                    references: nomenclatures(id)
+              - column:
+                  name: qty
+                  type: double
+              - column:
+                  name: operation_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_operation_list_id
+                    references: operations(id)
+
+  - changeSet:
+      id: create table for invoice_type
+      author: argen
+      changes:
+        - createTable:
+            tableName: invoice_types
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: guid
+                  type: varchar(255)
+              - column:
+                  name: is_deleted
+                  type: boolean
+
+  - changeSet:
+      id: create table for invoices
+      author: argen
+      changes:
+        - createTable:
+            tableName: invoices
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: invoice_type_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_invoice_type_id
+              - column:
+                  name: operation_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_operation_invoice_id
+                    references: operations(id)
+              - column:
+                  name: invoice_number
+                  type: bigint
+              - column:
+                  name: date
+                  type: timestamp
+              - column:
+                  name: source_warehouse_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_source_warehouse_id
+                    references: warehouses(id)
+              - column:
+                  name: target_warehouse_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: fk_destination_warehouse_id
+                    references: warehouses(id)

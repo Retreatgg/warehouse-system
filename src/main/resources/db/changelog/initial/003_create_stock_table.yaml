@@ -1,0 +1,41 @@
+databaseChangeLog:
+  - changeSet:
+      id: create table for stocks
+      author: argen
+      changes:
+        - createTable:
+            tableName: stocks
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: warehouse_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_warehouse_stock_id
+                    references: warehouses(id)
+              - column:
+                  name: nomenclature_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_nomenclature_stock_id
+                    references: nomenclatures(id)
+              - column:
+                  name: quantity
+                  type: double
+                  constraints:
+                    nullable: false
+              - column:
+                  name: unit_type_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_unit_type_stock_id
+                    references: unit_types(id)
