@@ -294,6 +294,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_invoice_type_id
+                    references: invoice_types(id)
               - column:
                   name: operation_id
                   type: bigint

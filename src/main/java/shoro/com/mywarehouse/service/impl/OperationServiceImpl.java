@@ -8,10 +8,7 @@ import shoro.com.mywarehouse.dto.OperationDto;
 import shoro.com.mywarehouse.mapper.OperationMapper;
 import shoro.com.mywarehouse.model.Operation;
 import shoro.com.mywarehouse.repository.OperationRepository;
-import shoro.com.mywarehouse.service.ListNomenclatureService;
-import shoro.com.mywarehouse.service.OperationService;
-import shoro.com.mywarehouse.service.OperationTypeService;
-import shoro.com.mywarehouse.service.WarehouseService;
+import shoro.com.mywarehouse.service.*;
 
 import java.time.Instant;
 import java.util.List;
@@ -25,6 +22,7 @@ public class OperationServiceImpl implements OperationService {
     private final WarehouseService warehouseService;
     private final OperationMapper operationMapper;
     private final ListNomenclatureService listNomenclatureService;
+    private final InvoiceService invoiceService;
 
     @Override
     public List<OperationDto> getAllOperations() {
@@ -38,6 +36,7 @@ public class OperationServiceImpl implements OperationService {
         Operation operation = buildFromCreateDto(createDto);
         operationRepository.save(operation);
         listNomenclatureService.createListNomenclature(createDto.getNomenclatureOperationDtoList());
+        invoiceService.createInvoice(operation);
         return operationMapper.toDto(operation);
     }
 

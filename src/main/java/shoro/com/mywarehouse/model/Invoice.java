@@ -1,14 +1,16 @@
 package shoro.com.mywarehouse.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.Instant;
 
 @Getter
 @Setter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "invoices")
 public class Invoice {
     @Id
@@ -17,8 +19,9 @@ public class Invoice {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "invoice_type_id", nullable = false)
-    private Long invoiceTypeId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "invoice_type_id", nullable = false)
+    private InvoiceType invoiceType;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "operation_id", nullable = false)
